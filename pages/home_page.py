@@ -17,7 +17,6 @@ class HomePage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
-
     # -- ACTIONS --
     def load(self):
         return self.open(Config.HOME_PAGE_URL)
