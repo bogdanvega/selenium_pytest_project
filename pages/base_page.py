@@ -73,3 +73,7 @@ class BasePage:
 
     def screenshot(self, name="screenshot"):
         self.driver.save_screenshot(f"{name}.png")
+
+    def wait_and_accept_alert(self, timeout=10):
+        alert = WebDriverWait(self.driver, timeout).until(EC.alert_is_present())
+        alert.accept()
