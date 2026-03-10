@@ -15,9 +15,10 @@ class ShopPage(HomePage):
     ADD_TO_FAVORITES_BUTTON_CELERY = (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[7]/div/div[2]/div[3]/div/div[3]/button")
     PRODUCT_INFO_CELERY = (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[7]")
     CELERY_RATING_4_STARS = (By.XPATH, "//*[@id='root']/div/section/section[1]/div[2]/div/div/div/div/div[1]/div/span[4]")
-    CELERY_COMMENT = (By.XPATH, "//*[@id='root']/div/section/section[1]/div[2]/div/div/div/div/textarea")
+    CELERY_COMMENT_INPUT = (By.XPATH, "//*[@id='root']/div/section/section[1]/div[2]/div/div/div/div/textarea")
     CELERY_SEND_RATING_BUTTON = (By.XPATH, "//*[@id='root']/div/section/section[1]/div[2]/div/div/div/div/div[3]/button[2]")
     CELERY_COMMENT_OPTIONS = (By.XPATH, "//*[@id='root']/div/section/section/div/div[1]/div/div[1]/div")
+    CELERY_COMMENT = (By.XPATH, "//*[@id='root']/div/section/section/div/div[1]/div/p")
     CELERY_DELETE_COMMENT = (By.XPATH, "//*[@id='root']/div/section/section/div/div[1]/div/div[1]/div[2]/button[2]")
     CELERY_RATING_RESTRICTION = (By.XPATH, "//*[@id='root']/div/section/div[3]/p")
     CELERY_RATING_USER = (By.XPATH, "//*[@id='root']/div/section/section/div/div[1]/div/div[1]/h5/strong")
@@ -80,8 +81,8 @@ class ShopPage(HomePage):
     def rate_celery_4_stars(self):
         self.click(self.CELERY_RATING_4_STARS)
 
-    def comment_celery(self):
-        self.type_text(self.CELERY_COMMENT, "Fresh")
+    def comment_celery(self, comment):
+        self.type_text(self.CELERY_COMMENT_INPUT, comment)
 
     def send_rating_celery(self):
         self.click(self.CELERY_SEND_RATING_BUTTON)
@@ -100,3 +101,6 @@ class ShopPage(HomePage):
     def get_celery_rating(self):
         rating = self.find_all(self.CELERY_CUSTOM_RATING)
         return len(rating)
+
+    def get_celery_comment(self):
+        return self.get_text(self.CELERY_COMMENT)

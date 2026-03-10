@@ -3,8 +3,7 @@ import time
 from pages.login_page import LoginPage
 from pages.shop_page import ShopPage
 
-
-def test_shop_add_oranges_to_cart(driver):
+def test_rate_celery(driver):
     login_page = LoginPage(driver)
     login_page.load()
     login_page.login("test123@test.com", "123456")
