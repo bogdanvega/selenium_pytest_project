@@ -62,3 +62,4 @@ def test_logged_user_rates_bought_product(driver, email, password, date_of_birth
                          ])
 def test_logged_user_rates_not_bought_product(driver, email, password, should_login, date_of_birth):
     pass
+    
