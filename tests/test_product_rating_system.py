@@ -4,14 +4,14 @@ from pages.checkout_page import CheckoutPage
 from pages.home_page import HomePage
 from pages.login_page import LoginPage
 from pages.shop_page import ShopPage
-from tests.test_data import TEST_VALID_USER, ADDRESS, CARD, TEST_INVALID_USER, COMMENT
+from tests.test_data import TEST_VALID_USER_1, ADDRESS, CARD, TEST_INVALID_USER, COMMENT, TEST_VALID_USER_2
 from utils.config import Config
 
 
 @pytest.mark.parametrize("email, password, date_of_birth, should_login, street, city,"
                          "postal_code, card_number, name_on_card, expiration, cvv, celery_comment, username", [
-                             (TEST_VALID_USER["email"], TEST_VALID_USER["password"], Config.AGE_20, True, ADDRESS["street"], ADDRESS["city"],
-                              ADDRESS["postal_code"], CARD["number"], CARD["name"], CARD["expiration"], CARD["cvv"], COMMENT["celery"], TEST_VALID_USER["username"]),
+                             (TEST_VALID_USER_1["email"], TEST_VALID_USER_1["password"], Config.AGE_20, True, ADDRESS["street"], ADDRESS["city"],
+                              ADDRESS["postal_code"], CARD["number"], CARD["name"], CARD["expiration"], CARD["cvv"], COMMENT["celery"], TEST_VALID_USER_1["username"]),
                              (TEST_INVALID_USER["email"], TEST_INVALID_USER["password"], Config.AGE_20, False, '', '', '', '', '', '', '', '',
                               '')
                          ])
@@ -66,7 +66,7 @@ def test_logged_user_rates_bought_product(driver, email, password, date_of_birth
 
 
 @pytest.mark.parametrize("email, password, should_login, date_of_birth", [
-    (TEST_VALID_USER["email"], TEST_VALID_USER["password"], True, Config.AGE_20),
+    (TEST_VALID_USER_1["email"], TEST_VALID_USER_1["password"], True, Config.AGE_20),
     (TEST_INVALID_USER["email"], TEST_INVALID_USER["password"], False, Config.AGE_20)
 ])
 def test_logged_user_rates_not_bought_product(driver, email, password, should_login, date_of_birth):
@@ -113,9 +113,9 @@ def test_logged_out_user_rates_product(driver, date_of_birth=Config.AGE_20):
 @pytest.mark.parametrize("email, password, should_login, date_of_birth, confirmation_added_to_cart,"
                          " street, city, postal_code, card_number, name_on_card, expiration_card,"
                          " cvv, cauliflower_comment, username",[
-    (TEST_VALID_USER["email"], TEST_VALID_USER["password"], True, Config.AGE_20,
+    (TEST_VALID_USER_1["email"], TEST_VALID_USER_1["password"], True, Config.AGE_20,
      Config.ITEM_ADDED_MESSAGE,ADDRESS["street"], ADDRESS["city"], ADDRESS["postal_code"],
-     CARD["number"], CARD["name"], CARD["expiration"], CARD["cvv"], COMMENT["cauliflower"], TEST_VALID_USER["username"])
+     CARD["number"], CARD["name"], CARD["expiration"], CARD["cvv"], COMMENT["cauliflower"], TEST_VALID_USER_1["username"])
 ])
 def test_logged_user_rates_product_2_times(driver, email, password, should_login, date_of_birth, confirmation_added_to_cart,
                                            street, city, postal_code, card_number, name_on_card, expiration_card,
@@ -160,7 +160,7 @@ def test_logged_user_rates_product_2_times(driver, email, password, should_login
         shop_page.comment(cauliflower_comment)
         shop_page.send_rating()
         shop_page.wait_for_user_rating(username)
-        assert shop_page.get_rating() == 5
+        assert shop_page.get_rating() == Config.RATING["5"]
         assert shop_page.get_rating_user().lower() == username.lower()
         assert shop_page.get_comment_text() == cauliflower_comment
         assert shop_page.get_rating_restriction_text() == Config.ALREADY_REVIEWED_MESSAGE
@@ -168,3 +168,74 @@ def test_logged_user_rates_product_2_times(driver, email, password, should_login
     else:
         login_page.login(email, password)
         assert login_page.get_error_message() == Config.LOGIN_ERROR_MESSAGE
+
+@pytest.mark.parametrize("email_1, password_1, should_login, date_of_birth, confirmation_added_to_cart,"
+                         " street, city, postal_code, card_number, name_on_card, expiration_card,"
+                         " cvv, asparagus_comment, username, email_2, password_2, confirmation_logged_out",[
+    (TEST_VALID_USER_1["email"], TEST_VALID_USER_1["password"], True, Config.AGE_20,
+     Config.ITEM_ADDED_MESSAGE,ADDRESS["street"], ADDRESS["city"], ADDRESS["postal_code"],
+     CARD["number"], CARD["name"], CARD["expiration"], CARD["cvv"], COMMENT["asparagus"], TEST_VALID_USER_1["username"],
+     TEST_VALID_USER_2["email"], TEST_VALID_USER_2["email"], Config.LOGGED_OUT_MESSAGE)
+])
+def test_user_sees_rate_of_another_user(driver, email_1, password_1, should_login, date_of_birth, confirmation_added_to_cart,
+                                           street, city, postal_code, card_number, name_on_card, expiration_card,
+                                           cvv, asparagus_comment, username, email_2, password_2, confirmation_logged_out):
+    home_page = HomePage(driver)
+    home_page.load()
+    home_page.open_auth_profile_by_icon()
+    login_page = LoginPage(driver)
+    login_page.load()
+    if should_login:
+        login_page.login(email_1, password_1)
+        home_page.open_auth_profile_by_icon()
+        assert login_page.is_visible_logout_button() == True
+        driver.back()
+        home_page.open_shop_by_page()
+        shop_page = ShopPage(driver)
+        shop_page.enter_date_age_modal(date_of_birth)
+        shop_page.confirm_age_modal()
+        assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
+        shop_page.wait_for_confirmation_to_disappear()
+        shop_page.page("4")
+        shop_page.add_product_to_cart("asparagus")
+        shop_page.open_cart_by_icon()
+        shop_page.wait_for_confirmation_message(confirmation_added_to_cart)
+        assert shop_page.get_confirmation_message() == confirmation_added_to_cart
+        checkout_page = CheckoutPage(driver)
+        checkout_page.load()
+        assert checkout_page.is_visible_buy_now_button() == True
+        checkout_page.enter_street(street)
+        checkout_page.enter_city(city)
+        checkout_page.enter_postal_code(postal_code)
+        checkout_page.enter_card_number(card_number)
+        checkout_page.enter_name_on_card(name_on_card)
+        checkout_page.enter_expiration_card(expiration_card)
+        checkout_page.enter_cvv_card(cvv)
+        checkout_page.buy_now()
+        home_page.open_shop_by_page()
+        shop_page.page("4")
+        shop_page.view_product_info("asparagus")
+        if shop_page.has_existing_rating(username):
+            shop_page.delete_rating()
+        shop_page.rate_stars("3")
+        shop_page.comment(asparagus_comment)
+        shop_page.send_rating()
+        shop_page.wait_for_user_rating(username)
+        assert shop_page.get_rating() == Config.RATING["3"]
+        assert shop_page.get_rating_user().lower() == username.lower()
+        assert shop_page.get_comment_text() == asparagus_comment
+        assert shop_page.get_rating_restriction_text() == Config.ALREADY_REVIEWED_MESSAGE
+        shop_page.open_auth_profile_by_icon()
+        login_page.logout()
+        shop_page.wait_for_confirmation_message(confirmation_logged_out)
+        assert shop_page.get_confirmation_message() == confirmation_logged_out
+        login_page.login(email_2, password_2)
+        home_page.open_auth_profile_by_icon()
+        assert login_page.is_visible_logout_button() == True
+        driver.back()
+        home_page.open_shop_by_page()
+        shop_page.page("4")
+        shop_page.view_product_info("asparagus")
+        assert shop_page.get_rating_user() == username
+        assert shop_page.get_rating() == Config.RATING["3"]
+        assert shop_page.get_comment_text() == asparagus_comment

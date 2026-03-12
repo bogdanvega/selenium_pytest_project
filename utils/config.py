@@ -14,6 +14,7 @@ class Config:
     ITEM_ADDED_MESSAGE = "Item added to cart!"
     ALREADY_REVIEWED_MESSAGE = "You have already reviewed this product."
     ITEM_NOT_YET_BOUGHT_MESSAGE = "You need to buy this product to tell us your opinion!"
+    LOGGED_OUT_MESSAGE = "Logged out successfully."
     RATING = {
         "1": 1,
         "2": 2,

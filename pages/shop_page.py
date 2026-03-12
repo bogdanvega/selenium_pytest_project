@@ -7,17 +7,22 @@ from utils.config import Config
 
 ADD_TO_CART_BUTTON = {
     "celery": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[7]/div/div[2]/div[3]/div/div[2]/button"),
-    "cauliflower": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/button")
+    "cauliflower": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/button"),
+    "asparagus": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[1]/div/div[2]/div[3]/div/div[2]/button")
 }
+
 ADD_TO_FAVOURITE_BUTTON = {
     "celery": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[7]/div/div[2]/div[3]/div/div[3]/button")
 }
+
 PRODUCT_INFO = {
     "celery": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[7]/div/div[1]"),
     "gala_apples": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[10]/div/div[1]"),
     "kale": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[3]/div/div[1]"),
-    "cauliflower": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[2]/div/div[1]")
+    "cauliflower": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[2]/div/div[1]"),
+    "asparagus": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[1]/div/div[1]")
 }
+
 PAGE_BUTTON = {
     "2": (By.XPATH, "//button[@class = 'pagination-link' and text() = '2']"),
     "3": (By.XPATH, "//button[@class = 'pagination-link' and text() = '3']"),

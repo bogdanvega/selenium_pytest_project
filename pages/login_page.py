@@ -38,6 +38,9 @@ class LoginPage(BasePage):
         self.submit()
         # return the instance of DashboardPOM
 
+    def logout(self):
+        self.click(self.LOGOUT_BUTTON)
+
     def get_error_message(self):
         if self.is_visible(self.ERROR_MSG):
             return self.get_text(self.ERROR_MSG)
@@ -51,3 +54,4 @@ class LoginPage(BasePage):
 
     def is_visible_logout_button(self):
         return self.is_visible(self.LOGOUT_BUTTON)
+
