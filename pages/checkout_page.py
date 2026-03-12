@@ -75,3 +75,5 @@ class CheckoutPage(BasePage):
     def get_total(self):
         return self.get_text(self.TOTAL)
 
+    def is_visible_buy_now_button(self):
+        return self.is_visible(self.BUY_NOW_BUTTON)

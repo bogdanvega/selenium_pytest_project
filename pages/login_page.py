@@ -11,6 +11,8 @@ class LoginPage(BasePage):
     PASSWORD_FIELD = (By.XPATH, "//input[@type = 'password']")
     SIGNIN_BUTTON = (By.XPATH, "//button[@type = 'submit' and text() = 'Sign In']")
     ERROR_MSG = (By.XPATH, "//div[@role = 'status']")
+    HOME_PAGE_LINK = (By.XPATH, "//a[@class = 'home-link']")
+    LOGOUT_BUTTON = (By.XPATH, "//button[@class = 'logout-btn']")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -40,3 +42,12 @@ class LoginPage(BasePage):
         if self.is_visible(self.ERROR_MSG):
             return self.get_text(self.ERROR_MSG)
         return None
+
+    def get_email(self):
+        return self.get_text(self.EMAIL_FIELD)
+
+    def open_home_by_link(self):
+        self.click(self.HOME_PAGE_LINK)
+
+    def is_visible_logout_button(self):
+        return self.is_visible(self.LOGOUT_BUTTON)

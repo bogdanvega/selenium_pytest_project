@@ -10,6 +10,7 @@ def driver():
     # Instantiate the web driver for Chrome
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--guest") # To workaround Google Password Manager pop-up
+    chrome_options.add_argument("--force-device-scale-factor=0.8") # 80% zoom
 
     # Start driver (Selenium 4 style)
     driver = webdriver.Chrome(options=chrome_options)
