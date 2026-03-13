@@ -9,14 +9,19 @@ def driver():
     """
     # Instantiate the web driver for Chrome
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--guest") # To workaround Google Password Manager pop-up
+
+    # Avoid Google Password Manager pop-up
+    chrome_options.add_argument("--guest")
+
+    # Zoom out to ensure all UI elements are visible during automation
     chrome_options.add_argument("--force-device-scale-factor=0.8") # 80% zoom
 
-    # Start driver (Selenium 4 style)
+    # Start browser maximized
+    chrome_options.add_argument("--start-maximized")
+
+    # Start driver
     driver = webdriver.Chrome(options=chrome_options)
-    driver.maximize_window()
     driver.delete_all_cookies()
-    driver.implicitly_wait(3)  # Implicit wait to handle timing issues
 
     # Yield the driver instance for use in tests
     yield driver

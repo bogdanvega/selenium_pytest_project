@@ -64,7 +64,10 @@ class BasePage:
         element.send_keys(text)
 
     def get_text(self, locator):
-        return self.find(locator).text.strip()
+        element = self.wait.until(
+            EC.visibility_of_element_located(locator)
+        )
+        return element.text.strip()
 
     def wait_for_url(self, partial_url, timeout=10):
         WebDriverWait(self.driver, timeout).until(
