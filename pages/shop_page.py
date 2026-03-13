@@ -91,7 +91,8 @@ class ShopPage(HomePage):
         return self
 
     def add_product_to_cart(self, product):
-        if product not in ADD_TO_CART_BUTTON:
+        locator = ADD_TO_CART_BUTTON.get(product)
+        if not locator:
             raise ValueError(f"Unknown product: {product}")
         self.scroll_into_view(ADD_TO_CART_BUTTON[product])
         self.click(ADD_TO_CART_BUTTON[product])
@@ -116,7 +117,7 @@ class ShopPage(HomePage):
 
     def view_product_info(self, product):
         self.scroll_into_view(PRODUCT_INFO[product])
-        WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(EC.visibility_of_element_located(PRODUCT_INFO[product])).click()
+        self.wait.until(EC.visibility_of_element_located(PRODUCT_INFO[product])).click()
 
     def rate_stars(self, stars):
         self.click(RATING_STARS[stars])
@@ -128,17 +129,17 @@ class ShopPage(HomePage):
         self.click(self.SEND_RATING_BUTTON)
 
     def delete_rating(self):
-        WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(
+        self.wait.until(
             EC.element_to_be_clickable(self.COMMENT_OPTIONS)
         ).click()
 
-        WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(
+        self.wait.until(
             EC.element_to_be_clickable(self.DELETE_COMMENT)
         ).click()
 
         self.wait_and_accept_alert()
 
-        WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(
+        self.wait.until(
             EC.invisibility_of_element_located(self.COMMENT_OPTIONS)
         )
 
@@ -162,17 +163,17 @@ class ShopPage(HomePage):
         return self.get_text(self.COMMENT_TEXT)
 
     def wait_for_confirmation_message(self, text):
-        WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(
+        self.wait.until(
             EC.text_to_be_present_in_element(self.CONFIRMATION_MSG, text)
         )
 
     def wait_for_confirmation_to_disappear(self):
-        WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(
+        self.wait.until(
             EC.invisibility_of_element(self.CONFIRMATION_MSG)
         )
 
     def wait_for_user_rating(self, username):
-        WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(
+        self.wait.until(
             EC.text_to_be_present_in_element(self.RATING_USER, username.capitalize()
             )
         )
