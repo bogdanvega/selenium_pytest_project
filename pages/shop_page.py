@@ -6,21 +6,21 @@ from pages.home_page import HomePage
 from utils.config import Config
 
 ADD_TO_CART_BUTTON = {
-    "celery": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[7]/div/div[2]/div[3]/div/div[2]/button"),
-    "cauliflower": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[2]/div/div[2]/div[3]/div/div[2]/button"),
-    "asparagus": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[1]/div/div[2]/div[3]/div/div[2]/button")
+    "celery": (By.XPATH, "//img[@alt='Celery']/following::button[@class = 'btn btn-primary btn-cart']"),
+    "cauliflower": (By.XPATH, "//img[@alt='Cauliflower']/following::button[@class = 'btn btn-primary btn-cart']"),
+    "asparagus": (By.XPATH, "//img[@alt='Asparagus']/following::button[@class = 'btn btn-primary btn-cart']")
 }
 
 ADD_TO_FAVOURITE_BUTTON = {
-    "celery": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[7]/div/div[2]/div[3]/div/div[3]/button")
+    "celery": (By.XPATH, "//img[@alt='Celery']/following::button[@class = 'btn btn-outline-dark ']")
 }
 
 PRODUCT_INFO = {
-    "celery": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[7]/div/div[1]"),
-    "gala_apples": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[10]/div/div[1]"),
-    "kale": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[3]/div/div[1]"),
-    "cauliflower": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[2]/div/div[1]"),
-    "asparagus": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[1]/div/div[1]")
+    "celery": (By.XPATH, "//img[@alt='Celery']"),
+    "gala_apples": (By.XPATH, "//img[@alt='Gala Apples']"),
+    "kale": (By.XPATH, "//img[@alt='Kale']"),
+    "cauliflower": (By.XPATH, "//img[@alt='Cauliflower']"),
+    "asparagus": (By.XPATH, "//img[@alt='Asparagus']")
 }
 
 PAGE_BUTTON = {
@@ -30,15 +30,15 @@ PAGE_BUTTON = {
 }
 
 RATING_STARS = {
-    "1": (By.XPATH, "//*[@id='root']/div/section/section[1]/div[2]/div/div/div/div/div[1]/div/span[1]"),
-    "2": (By.XPATH, "//*[@id='root']/div/section/section[1]/div[2]/div/div/div/div/div[1]/div/span[2]"),
-    "3": (By.XPATH, "//*[@id='root']/div/section/section[1]/div[2]/div/div/div/div/div[1]/div/span[3]"),
-    "4": (By.XPATH, "//*[@id='root']/div/section/section[1]/div[2]/div/div/div/div/div[1]/div/span[4]"),
-    "5": (By.XPATH, "//*[@id='root']/div/section/section[1]/div[2]/div/div/div/div/div[1]/div/span[5]")
+    "1": (By.XPATH, "//div[@class = 'interactive-rating']/span[1]"),
+    "2": (By.XPATH, "//div[@class = 'interactive-rating']/span[2]"),
+    "3": (By.XPATH, "//div[@class = 'interactive-rating']/span[3]"),
+    "4": (By.XPATH, "//div[@class = 'interactive-rating']/span[4]"),
+    "5": (By.XPATH, "//div[@class = 'interactive-rating']/span[5]")
 }
 
 QUANTITY_INPUT_PRODUCT = {
-    "celery": (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[7]/div/div[2]/div[3]/div/div[1]/input")
+    "celery": (By.XPATH, "//img[@alt='Celery']/following::input[@type = 'number']")
 }
 
 class ShopPage(HomePage):
@@ -49,16 +49,15 @@ class ShopPage(HomePage):
     AGE_VERIFICATION_CONFIRM_BUTTON = (By.XPATH, "//div[@class = 'modal-content']/button[text() = 'Confirm']")
     CONFIRMATION_MSG = (By.XPATH, "//div[@role = 'status']")
     ERROR_MSG = (By.XPATH, "//div[@role = 'status']")
-    QUANTITY_INPUT_CELERY = (By.XPATH, "//*[@id='root']/div/div[3]/div[2]/div/div[2]/div[7]/div/div[2]/div[3]/div/div[1]/input")
-    COMMENT_INPUT = (By.XPATH, "//*[@id='root']/div/section/section[1]/div[2]/div/div/div/div/textarea")
-    SEND_RATING_BUTTON = (By.XPATH, "//*[@id='root']/div/section/section[1]/div[2]/div/div/div/div/div[3]/button[2]")
-    COMMENT_OPTIONS = (By.XPATH, "//*[@id='root']/div/section/section/div/div[1]/div/div[1]/div[1]")
-    COMMENT_TEXT = (By.XPATH, "//*[@id='root']/div/section/section/div/div[1]/div/p")
-    DELETE_COMMENT = (By.XPATH, "//*[@id='root']/div/section/section/div/div[1]/div/div[1]/div[2]/button[2]")
-    RATING_RESTRICTION = (By.XPATH, "//*[@id='root']/div/section/div[3]/p")
-    RATING_USER = (By.XPATH, "//*[@id='root']/div/section/section/div/div[1]/div/div[1]/h5/strong")
-    CUSTOM_RATING = (By.XPATH, "//*[@id='root']/div/section/section/div/div[1]/div/div[2]/div/div/div[1]/span[contains(@class,'full')]")
-    CATEGORY_FILTER_LIST = (By.XPATH, f"//h4[@class = 'widget-title']/following-sibling::ul/li[{Config.ALL_CATEGORY}]")
+    COMMENT_INPUT = (By.XPATH, "//textarea[@class = 'new-review-form-control ']")
+    SEND_RATING_BUTTON = (By.XPATH, "//button[@class = 'new-review-btn new-review-btn-send']")
+    COMMENT_OPTIONS = (By.XPATH, "//div[@class = 'menu-icon']")
+    COMMENT_TEXT = (By.XPATH, "//div[@class = 'comment'][1]/div[@class = 'comment-body']//p")
+    EDIT_COMMENT = (By.XPATH, "//div[@class = 'dropdown-menu']/button[1]")
+    DELETE_COMMENT = (By.XPATH, "//div[@class = 'dropdown-menu']/button[2]")
+    RATING_RESTRICTION = (By.XPATH, "//div[@class = 'reviewRestriction']/p")
+    RATING_USER = (By.XPATH, "//div[@class = 'comment'][1]//div[@class = 'comment-header']//strong")
+    CUSTOM_RATING = (By.XPATH, "//div[@class = 'comment'][1]//div[@class = 'custom-rating']/span[@class = 'star full']")
     NEXT_PAGE_BUTTON = (By.XPATH, "//button[@class = 'pagination-link' and text() = 'Next']")
     PREVIOUS_PAGE_BUTTON = (By.XPATH, "//button[@class = 'pagination-link' and text() = 'Previous']")
 
@@ -103,10 +102,6 @@ class ShopPage(HomePage):
         self.scroll_into_view(ADD_TO_FAVOURITE_BUTTON[product])
         self.click(ADD_TO_FAVOURITE_BUTTON[product])
 
-    def select_category_list(self):
-        self.scroll_into_view(self.CATEGORY_FILTER_LIST)
-        self.click(self.CATEGORY_FILTER_LIST)
-
     def next_page(self):
         self.scroll_into_view(self.NEXT_PAGE_BUTTON)
         self.click(self.NEXT_PAGE_BUTTON)
@@ -148,11 +143,9 @@ class ShopPage(HomePage):
         )
 
     def has_existing_rating(self, username):
-        users = self.driver.find_elements(*self.RATING_USER)
-
-        for user in users:
-            if user.text.lower() == username.lower():
-                return True
+        user = self.get_rating_user()
+        if user.lower() == username.lower():
+            return True
         return False
 
     def get_rating_restriction_text(self):

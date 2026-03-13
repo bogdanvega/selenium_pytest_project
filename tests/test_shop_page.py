@@ -2,6 +2,9 @@ import time
 
 from pages.login_page import LoginPage
 from pages.shop_page import ShopPage
+from utils.config import Config
+from utils.test_data import COMMENT
+from utils.test_data import TEST_VALID_USER_1
 
 def test_rate_celery(driver):
     login_page = LoginPage(driver)
@@ -14,18 +17,18 @@ def test_rate_celery(driver):
     shop_page.enter_date_age_modal("23-10-1990")
     shop_page.confirm_age_modal()
     time.sleep(2)
-    shop_page.next_page()
-    shop_page.enter_quantity_input_celery(5)
-    shop_page.view_product_info_celery()
-    shop_page.rate_celery_4_stars()
-    shop_page.comment_celery()
-    shop_page.send_rating_celery()
+    shop_page.enter_quantity_input(Config.ITEM_QUANTITY, "celery")
+    shop_page.add_product_to_cart("celery")
+    shop_page.view_product_info("celery")
+    shop_page.rate_stars("4")
+    shop_page.comment(COMMENT["celery"])
+    shop_page.send_rating()
     time.sleep(2)
-    assert shop_page.get_celery_rating_restriction_text() == "You have already reviewed this product."
+    assert shop_page.get_rating_restriction_text() == Config.ALREADY_REVIEWED_MESSAGE
     time.sleep(2)
-    assert shop_page.get_celery_rating_user() == "Test123"
+    assert shop_page.get_rating_user() == TEST_VALID_USER_1["username"]
     time.sleep(2)
-    assert shop_page.get_celery_rating() == 4
+    assert shop_page.get_rating() == Config.RATING["4"]
     time.sleep(2)
-    shop_page.delete_rating_celery()
+    shop_page.delete_rating()
     time.sleep(2)

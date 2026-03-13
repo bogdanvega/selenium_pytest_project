@@ -31,7 +31,6 @@ def test_logged_user_rates_bought_product(driver, email, password, date_of_birth
         shop_page.enter_date_age_modal(date_of_birth)
         shop_page.confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
-        shop_page.next_page()
         shop_page.add_product_to_cart("celery")
         shop_page.wait_for_confirmation_message(Config.ITEM_ADDED_MESSAGE)
         assert shop_page.get_confirmation_message() == Config.ITEM_ADDED_MESSAGE
@@ -47,7 +46,6 @@ def test_logged_user_rates_bought_product(driver, email, password, date_of_birth
         checkout_page.enter_cvv_card(cvv)
         checkout_page.buy_now()
         home_page.open_shop_by_page()
-        shop_page.next_page()
         shop_page.view_product_info("celery")
         if shop_page.has_existing_rating(username):
             shop_page.delete_rating()
@@ -105,7 +103,6 @@ def test_logged_out_user_rates_product(driver, date_of_birth=Config.AGE_20):
     shop_page.confirm_age_modal()
     assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
     shop_page.wait_for_confirmation_to_disappear()
-    shop_page.page("4")
     shop_page.view_product_info("kale")
     assert shop_page.get_rating_restriction_text() == Config.ITEM_NOT_YET_BOUGHT_MESSAGE
 
@@ -136,7 +133,6 @@ def test_logged_user_rates_product_2_times(driver, email, password, should_login
         shop_page.confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
         shop_page.wait_for_confirmation_to_disappear()
-        shop_page.page("3")
         shop_page.add_product_to_cart("cauliflower")
         shop_page.wait_for_confirmation_message(confirmation_added_to_cart)
         assert shop_page.get_confirmation_message() == confirmation_added_to_cart
@@ -152,7 +148,6 @@ def test_logged_user_rates_product_2_times(driver, email, password, should_login
         checkout_page.enter_cvv_card(cvv)
         checkout_page.buy_now()
         home_page.open_shop_by_page()
-        shop_page.page("3")
         shop_page.view_product_info("cauliflower")
         if shop_page.has_existing_rating(username):
             shop_page.delete_rating()
@@ -196,7 +191,6 @@ def test_user_sees_rate_of_another_user(driver, email_1, password_1, should_logi
         shop_page.confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
         shop_page.wait_for_confirmation_to_disappear()
-        shop_page.page("4")
         shop_page.add_product_to_cart("asparagus")
         shop_page.wait_for_confirmation_message(confirmation_added_to_cart)
         assert shop_page.get_confirmation_message() == confirmation_added_to_cart
@@ -213,7 +207,6 @@ def test_user_sees_rate_of_another_user(driver, email_1, password_1, should_logi
         checkout_page.enter_cvv_card(cvv)
         checkout_page.buy_now()
         home_page.open_shop_by_page()
-        shop_page.page("4")
         shop_page.view_product_info("asparagus")
         if shop_page.has_existing_rating(username):
             shop_page.delete_rating()
@@ -234,7 +227,6 @@ def test_user_sees_rate_of_another_user(driver, email_1, password_1, should_logi
         assert login_page.is_visible_logout_button() == True
         driver.back()
         home_page.open_shop_by_page()
-        shop_page.page("4")
         shop_page.view_product_info("asparagus")
         assert shop_page.get_rating_user() == username
         assert shop_page.get_rating() == Config.RATING["3"]
