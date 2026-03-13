@@ -94,26 +94,33 @@ class ShopPage(HomePage):
     def add_product_to_cart(self, product):
         if product not in ADD_TO_CART_BUTTON:
             raise ValueError(f"Unknown product: {product}")
+        self.scroll_into_view(ADD_TO_CART_BUTTON[product])
         self.click(ADD_TO_CART_BUTTON[product])
 
     def add_to_favourites(self, product):
         if product not in ADD_TO_FAVOURITE_BUTTON:
             raise ValueError(f"Unknown product: {product}")
+        self.scroll_into_view(ADD_TO_FAVOURITE_BUTTON[product])
         self.click(ADD_TO_FAVOURITE_BUTTON[product])
 
     def select_category_list(self):
+        self.scroll_into_view(self.CATEGORY_FILTER_LIST)
         self.click(self.CATEGORY_FILTER_LIST)
 
     def next_page(self):
+        self.scroll_into_view(self.NEXT_PAGE_BUTTON)
         self.click(self.NEXT_PAGE_BUTTON)
 
     def previous_page(self):
+        self.scroll_into_view(self.PREVIOUS_PAGE_BUTTON)
         self.click(self.PREVIOUS_PAGE_BUTTON)
 
     def page(self, page_number):
+        self.scroll_into_view(PAGE_BUTTON[page_number])
         self.click(PAGE_BUTTON[page_number])
 
     def view_product_info(self, product):
+        self.scroll_into_view(PRODUCT_INFO[product])
         WebDriverWait(self.driver, Config.DEFAULT_TIMEOUT).until(EC.visibility_of_element_located(PRODUCT_INFO[product])).click()
 
     def rate_stars(self, stars):

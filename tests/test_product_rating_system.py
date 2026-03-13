@@ -4,7 +4,7 @@ from pages.checkout_page import CheckoutPage
 from pages.home_page import HomePage
 from pages.login_page import LoginPage
 from pages.shop_page import ShopPage
-from tests.test_data import TEST_VALID_USER_1, ADDRESS, CARD, TEST_INVALID_USER, COMMENT, TEST_VALID_USER_2
+from utils.test_data import TEST_VALID_USER_1, ADDRESS, CARD, TEST_INVALID_USER, COMMENT, TEST_VALID_USER_2
 from utils.config import Config
 
 

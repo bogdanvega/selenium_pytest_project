@@ -30,6 +30,7 @@ class LoginPage(BasePage):
         return self
 
     def submit(self):
+        self.scroll_into_view(self.SIGNIN_BUTTON)
         self.click(self.SIGNIN_BUTTON)
 
     def login(self, email, password):
@@ -39,6 +40,7 @@ class LoginPage(BasePage):
         # return the instance of DashboardPOM
 
     def logout(self):
+        self.scroll_into_view(self.LOGOUT_BUTTON)
         self.click(self.LOGOUT_BUTTON)
 
     def get_error_message(self):

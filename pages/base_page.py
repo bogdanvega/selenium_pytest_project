@@ -1,7 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from utils.config import Config
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 
 
 class BasePage:
@@ -35,10 +35,9 @@ class BasePage:
 
     def find_all(self, locator):
         """ Return all matching elements."""
-        self.wait.until(
-            EC.presence_of_element_located(locator)
+        return self.wait.until(
+            EC.presence_of_all_elements_located(locator)
         )
-        return self.driver.find_elements(*locator)
 
     def is_visible(self, locator, timeout=5):
         try:
@@ -60,6 +59,7 @@ class BasePage:
         element = self.wait.until(
             EC.visibility_of_element_located(locator)
         )
+        element.click()
         element.clear()
         element.send_keys(text)
 
@@ -72,8 +72,12 @@ class BasePage:
         )
 
     def screenshot(self, name="screenshot"):
-        self.driver.save_screenshot(f"{name}.png")
+        self.driver.save_screenshot(f"screenshots/{name}.png")
 
     def wait_and_accept_alert(self, timeout=10):
         alert = WebDriverWait(self.driver, timeout).until(EC.alert_is_present())
         alert.accept()
+
+    def scroll_into_view(self, locator):
+        element = self.find(locator)
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
