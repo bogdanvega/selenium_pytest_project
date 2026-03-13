@@ -198,9 +198,9 @@ def test_user_sees_rate_of_another_user(driver, email_1, password_1, should_logi
         shop_page.wait_for_confirmation_to_disappear()
         shop_page.page("4")
         shop_page.add_product_to_cart("asparagus")
-        shop_page.open_cart_by_icon()
         shop_page.wait_for_confirmation_message(confirmation_added_to_cart)
         assert shop_page.get_confirmation_message() == confirmation_added_to_cart
+        shop_page.open_cart_by_icon()
         checkout_page = CheckoutPage(driver)
         checkout_page.load()
         assert checkout_page.is_visible_buy_now_button() == True
