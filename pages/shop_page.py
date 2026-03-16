@@ -1,5 +1,4 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from pages.home_page import HomePage
@@ -45,10 +44,14 @@ class ShopPage(HomePage):
     """
     Page object for the shop page.
     """
+    # --- AGE VERIFICATION ---
     AGE_VERIFICATION_INPUT = (By.XPATH, "//div[@class = 'modal-content']/input[@type = 'text']")
     AGE_VERIFICATION_CONFIRM_BUTTON = (By.XPATH, "//div[@class = 'modal-content']/button[text() = 'Confirm']")
+
     CONFIRMATION_MSG = (By.XPATH, "//div[@role = 'status']")
     ERROR_MSG = (By.XPATH, "//div[@role = 'status']")
+
+    # --- RATING SYSTEM ---
     COMMENT_INPUT = (By.XPATH, "//textarea[@class = 'new-review-form-control ']")
     SEND_RATING_BUTTON = (By.XPATH, "//button[@class = 'new-review-btn new-review-btn-send']")
     COMMENT_OPTIONS = (By.XPATH, "//div[@class = 'menu-icon']")
@@ -58,6 +61,8 @@ class ShopPage(HomePage):
     RATING_RESTRICTION = (By.XPATH, "//div[@class = 'reviewRestriction']/p")
     RATING_USER = (By.XPATH, "//div[@class = 'comment'][1]//div[@class = 'comment-header']//strong")
     CUSTOM_RATING = (By.XPATH, "//div[@class = 'comment'][1]//div[@class = 'custom-rating']/span[@class = 'star full']")
+
+    # --- PAGINATION ---
     NEXT_PAGE_BUTTON = (By.XPATH, "//button[@class = 'pagination-link' and text() = 'Next']")
     PREVIOUS_PAGE_BUTTON = (By.XPATH, "//button[@class = 'pagination-link' and text() = 'Previous']")
 
@@ -112,8 +117,11 @@ class ShopPage(HomePage):
         self.click(self.PREVIOUS_PAGE_BUTTON)
 
     def page(self, page_number):
-        self.scroll_into_view(PAGE_BUTTON[page_number])
-        self.click(PAGE_BUTTON[page_number])
+        locator = PAGE_BUTTON.get(page_number)
+        if not locator:
+            raise ValueError(f"Invalid page number: {page_number}")
+        self.scroll_into_view(locator)
+        self.click(locator)
 
     def view_product_info(self, product):
         self.scroll_into_view(PRODUCT_INFO[product])

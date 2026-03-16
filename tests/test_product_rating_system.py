@@ -24,27 +24,19 @@ def test_logged_user_rates_bought_product(driver, email, password, date_of_birth
     if should_login:
         login_page.login(email, password)
         home_page.open_auth_profile_by_icon()
-        assert login_page.is_visible_logout_button() == True
+        assert login_page.is_visible_logout_button()
         driver.back()
         shop_page = ShopPage(driver)
         shop_page.load()
-        shop_page.enter_date_age_modal(date_of_birth)
-        shop_page.confirm_age_modal()
+        shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
         shop_page.add_product_to_cart("celery")
         shop_page.wait_for_confirmation_message(Config.ITEM_ADDED_MESSAGE)
         assert shop_page.get_confirmation_message() == Config.ITEM_ADDED_MESSAGE
         checkout_page = CheckoutPage(driver)
         checkout_page.load()
-        assert checkout_page.is_visible_buy_now_button() == True
-        checkout_page.enter_street(street)
-        checkout_page.enter_city(city)
-        checkout_page.enter_postal_code(postal_code)
-        checkout_page.enter_card_number(card_number)
-        checkout_page.enter_name_on_card(name_on_card)
-        checkout_page.enter_expiration_card(expiration)
-        checkout_page.enter_cvv_card(cvv)
-        checkout_page.buy_now()
+        assert checkout_page.is_visible_buy_now_button()
+        checkout_page.complete_checkout(street, city, postal_code, card_number, name_on_card, expiration, cvv)
         home_page.open_shop_by_page()
         shop_page.view_product_info("celery")
         if shop_page.has_existing_rating(username):
@@ -75,12 +67,11 @@ def test_logged_user_rates_not_bought_product(driver, email, password, should_lo
     if should_login:
         login_page.login(email, password)
         home_page.open_auth_profile_by_icon()
-        assert login_page.is_visible_logout_button() == True
+        assert login_page.is_visible_logout_button()
         driver.back()
         home_page.open_shop_by_page()
         shop_page = ShopPage(driver)
-        shop_page.enter_date_age_modal(date_of_birth)
-        shop_page.confirm_age_modal()
+        shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
         shop_page.view_product_info("gala_apples")
         assert shop_page.get_rating_restriction_text() == Config.ITEM_NOT_YET_BOUGHT_MESSAGE
@@ -99,8 +90,7 @@ def test_logged_out_user_rates_product(driver, date_of_birth=Config.AGE_20):
     login_page.open_home_by_link()
     home_page.open_shop_by_page()
     shop_page = ShopPage(driver)
-    shop_page.enter_date_age_modal(date_of_birth)
-    shop_page.confirm_age_modal()
+    shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
     assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
     shop_page.wait_for_confirmation_to_disappear()
     shop_page.view_product_info("kale")
@@ -125,12 +115,11 @@ def test_logged_user_rates_product_2_times(driver, email, password, should_login
     if should_login:
         login_page.login(email, password)
         home_page.open_auth_profile_by_icon()
-        assert login_page.is_visible_logout_button() == True
+        assert login_page.is_visible_logout_button()
         driver.back()
         home_page.open_shop_by_page()
         shop_page = ShopPage(driver)
-        shop_page.enter_date_age_modal(date_of_birth)
-        shop_page.confirm_age_modal()
+        shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
         shop_page.wait_for_confirmation_to_disappear()
         shop_page.add_product_to_cart("cauliflower")
@@ -138,15 +127,8 @@ def test_logged_user_rates_product_2_times(driver, email, password, should_login
         assert shop_page.get_confirmation_message() == confirmation_added_to_cart
         checkout_page = CheckoutPage(driver)
         checkout_page.load()
-        assert checkout_page.is_visible_buy_now_button() == True
-        checkout_page.enter_street(street)
-        checkout_page.enter_city(city)
-        checkout_page.enter_postal_code(postal_code)
-        checkout_page.enter_card_number(card_number)
-        checkout_page.enter_name_on_card(name_on_card)
-        checkout_page.enter_expiration_card(expiration_card)
-        checkout_page.enter_cvv_card(cvv)
-        checkout_page.buy_now()
+        assert checkout_page.is_visible_buy_now_button()
+        checkout_page.complete_checkout(street, city, postal_code, card_number, name_on_card, expiration_card, cvv)
         home_page.open_shop_by_page()
         shop_page.view_product_info("cauliflower")
         if shop_page.has_existing_rating(username):
@@ -170,7 +152,7 @@ def test_logged_user_rates_product_2_times(driver, email, password, should_login
     (TEST_VALID_USER_1["email"], TEST_VALID_USER_1["password"], True, Config.AGE_20,
      Config.ITEM_ADDED_MESSAGE,ADDRESS["street"], ADDRESS["city"], ADDRESS["postal_code"],
      CARD["number"], CARD["name"], CARD["expiration"], CARD["cvv"], COMMENT["asparagus"], TEST_VALID_USER_1["username"],
-     TEST_VALID_USER_2["email"], TEST_VALID_USER_2["email"], Config.LOGGED_OUT_MESSAGE)
+     TEST_VALID_USER_2["email"], TEST_VALID_USER_2["password"], Config.LOGGED_OUT_MESSAGE)
 ])
 def test_user_sees_rate_of_another_user(driver, email_1, password_1, should_login, date_of_birth, confirmation_added_to_cart,
                                            street, city, postal_code, card_number, name_on_card, expiration_card,
@@ -183,12 +165,11 @@ def test_user_sees_rate_of_another_user(driver, email_1, password_1, should_logi
     if should_login:
         login_page.login(email_1, password_1)
         home_page.open_auth_profile_by_icon()
-        assert login_page.is_visible_logout_button() == True
+        assert login_page.is_visible_logout_button()
         driver.back()
         home_page.open_shop_by_page()
         shop_page = ShopPage(driver)
-        shop_page.enter_date_age_modal(date_of_birth)
-        shop_page.confirm_age_modal()
+        shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
         shop_page.wait_for_confirmation_to_disappear()
         shop_page.add_product_to_cart("asparagus")
@@ -197,15 +178,8 @@ def test_user_sees_rate_of_another_user(driver, email_1, password_1, should_logi
         shop_page.open_cart_by_icon()
         checkout_page = CheckoutPage(driver)
         checkout_page.load()
-        assert checkout_page.is_visible_buy_now_button() == True
-        checkout_page.enter_street(street)
-        checkout_page.enter_city(city)
-        checkout_page.enter_postal_code(postal_code)
-        checkout_page.enter_card_number(card_number)
-        checkout_page.enter_name_on_card(name_on_card)
-        checkout_page.enter_expiration_card(expiration_card)
-        checkout_page.enter_cvv_card(cvv)
-        checkout_page.buy_now()
+        assert checkout_page.is_visible_buy_now_button()
+        checkout_page.complete_checkout(street, city, postal_code, card_number, name_on_card, expiration_card, cvv)
         home_page.open_shop_by_page()
         shop_page.view_product_info("asparagus")
         if shop_page.has_existing_rating(username):
@@ -224,7 +198,7 @@ def test_user_sees_rate_of_another_user(driver, email_1, password_1, should_logi
         assert shop_page.get_confirmation_message() == confirmation_logged_out
         login_page.login(email_2, password_2)
         home_page.open_auth_profile_by_icon()
-        assert login_page.is_visible_logout_button() == True
+        assert login_page.is_visible_logout_button()
         driver.back()
         home_page.open_shop_by_page()
         shop_page.view_product_info("asparagus")

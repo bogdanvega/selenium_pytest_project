@@ -77,3 +77,13 @@ class CheckoutPage(BasePage):
 
     def is_visible_buy_now_button(self):
         return self.is_visible(self.BUY_NOW_BUTTON)
+
+    def complete_checkout(self, street, city, postal_code, card_number, name_on_card, expiration, cvv):
+        self.enter_street(street)
+        self.enter_city(city)
+        self.enter_postal_code(postal_code)
+        self.enter_card_number(card_number)
+        self.enter_name_on_card(name_on_card)
+        self.enter_expiration_card(expiration)
+        self.enter_cvv_card(cvv)
+        self.buy_now()
