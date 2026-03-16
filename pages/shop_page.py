@@ -40,6 +40,21 @@ QUANTITY_INPUT_PRODUCT = {
     "celery": (By.XPATH, "//img[@alt='Celery']/following::input[@type = 'number']")
 }
 
+CATEGORY = {
+    "all": (By.XPATH, "//ul/li[1]/a"),
+    "vegetables": (By.XPATH, "//ul/li[2]/a"),
+    "meat": (By.XPATH, "//ul/li[3]/a"),
+    "meat free": (By.XPATH, "//ul/li[4]/a"),
+    "bakery": (By.XPATH, "//ul/li[5]/a"),
+    "chilled": (By.XPATH, "//ul/li[6]/a"),
+    "cupboard": (By.XPATH, "//ul/li[7]/a"),
+    "alcohol": (By.XPATH, "//ul/li[8]/a"),
+    "frozen": (By.XPATH, "//ul/li[9]/a"),
+    "fish": (By.XPATH, "//ul/li[10]/a"),
+    "cleaning": (By.XPATH, "//ul/li[11]/a"),
+    "pet": (By.XPATH, "//ul/li[12]/a")
+}
+
 class ShopPage(HomePage):
     """
     Page object for the shop page.
@@ -47,9 +62,12 @@ class ShopPage(HomePage):
     # --- AGE VERIFICATION ---
     AGE_VERIFICATION_INPUT = (By.XPATH, "//div[@class = 'modal-content']/input[@type = 'text']")
     AGE_VERIFICATION_CONFIRM_BUTTON = (By.XPATH, "//div[@class = 'modal-content']/button[text() = 'Confirm']")
+    AGE_VERIFICATION_TEXT = (By.XPATH, "//div[@class = 'modal-content']//p")
+    UNDERAGE_NOTICE = (By.XPATH, "//div[@class = 'card-body']/p")
 
     CONFIRMATION_MSG = (By.XPATH, "//div[@role = 'status']")
     ERROR_MSG = (By.XPATH, "//div[@role = 'status']")
+    FIRST_PRODUCT_NAME = (By.XPATH, "//p[@class = 'lead']")
 
     # --- RATING SYSTEM ---
     COMMENT_INPUT = (By.XPATH, "//textarea[@class = 'new-review-form-control ']")
@@ -72,6 +90,9 @@ class ShopPage(HomePage):
     def load(self):
         return self.open(Config.SHOP_PAGE_URL)
 
+    def get_age_modal_text(self):
+        return self.get_text(self.AGE_VERIFICATION_TEXT)
+
     def enter_date_age_modal(self, date):
         self.type_text(self.AGE_VERIFICATION_INPUT, date)
         return self
@@ -88,6 +109,9 @@ class ShopPage(HomePage):
         if self.is_visible(self.ERROR_MSG):
             return self.get_text(self.ERROR_MSG)
         return None
+
+    def get_first_product_name(self):
+        return self.get_text(self.FIRST_PRODUCT_NAME)
 
     def enter_quantity_input(self, quantity, product):
         if product not in QUANTITY_INPUT_PRODUCT:
@@ -122,6 +146,12 @@ class ShopPage(HomePage):
             raise ValueError(f"Invalid page number: {page_number}")
         self.scroll_into_view(locator)
         self.click(locator)
+
+    def view_category_products(self, category):
+        locator = CATEGORY.get(category)
+        if not locator:
+            raise ValueError(f"Invalid category: {category}")
+        self.wait.until(EC.visibility_of_element_located(locator)).click()
 
     def view_product_info(self, product):
         self.scroll_into_view(PRODUCT_INFO[product])
@@ -162,6 +192,9 @@ class ShopPage(HomePage):
 
     def get_rating_user(self):
         return self.get_text(self.RATING_USER)
+
+    def get_underage_notice_text(self):
+        return self.get_text(self.UNDERAGE_NOTICE)
 
     def get_rating(self):
         rating = self.find_all(self.CUSTOM_RATING)

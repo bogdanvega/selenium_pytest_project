@@ -17,17 +17,14 @@ from utils.config import Config
                          ])
 def test_logged_user_rates_bought_product(driver, email, password, date_of_birth, should_login, street, city, postal_code,
                                           card_number, name_on_card, expiration, cvv, celery_comment, username):
-    home_page = HomePage(driver)
-    home_page.load()
-    login_page = LoginPage(driver)
-    login_page.load()
+    home_page = HomePage(driver).load()
+    login_page = LoginPage(driver).load()
     if should_login:
         login_page.login(email, password)
         home_page.open_auth_profile_by_icon()
         assert login_page.is_visible_logout_button()
         driver.back()
-        shop_page = ShopPage(driver)
-        shop_page.load()
+        shop_page = ShopPage(driver).load()
         shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
         shop_page.add_product_to_cart("celery")
@@ -60,17 +57,14 @@ def test_logged_user_rates_bought_product(driver, email, password, date_of_birth
     (TEST_INVALID_USER["email"], TEST_INVALID_USER["password"], False, Config.AGE_20)
 ])
 def test_logged_user_rates_not_bought_product(driver, email, password, should_login, date_of_birth):
-    home_page = HomePage(driver)
-    home_page.load()
-    login_page = LoginPage(driver)
-    login_page.load()
+    home_page = HomePage(driver).load()
+    login_page = LoginPage(driver).load()
     if should_login:
         login_page.login(email, password)
         home_page.open_auth_profile_by_icon()
         assert login_page.is_visible_logout_button()
         driver.back()
-        home_page.open_shop_by_page()
-        shop_page = ShopPage(driver)
+        shop_page = ShopPage(driver).load()
         shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
         shop_page.view_product_info("gala_apples")
@@ -81,11 +75,8 @@ def test_logged_user_rates_not_bought_product(driver, email, password, should_lo
 
 
 def test_logged_out_user_rates_product(driver, date_of_birth=Config.AGE_20):
-    home_page = HomePage(driver)
-    home_page.load()
-    home_page.open_auth_profile_by_icon()
-    login_page = LoginPage(driver)
-    login_page.load()
+    home_page = HomePage(driver).load()
+    login_page = LoginPage(driver).load()
     assert login_page.get_email() == ''
     login_page.open_home_by_link()
     home_page.open_shop_by_page()
@@ -107,18 +98,14 @@ def test_logged_out_user_rates_product(driver, date_of_birth=Config.AGE_20):
 def test_logged_user_rates_product_2_times(driver, email, password, should_login, date_of_birth, confirmation_added_to_cart,
                                            street, city, postal_code, card_number, name_on_card, expiration_card,
                                            cvv, cauliflower_comment, username):
-    home_page = HomePage(driver)
-    home_page.load()
-    home_page.open_auth_profile_by_icon()
-    login_page = LoginPage(driver)
-    login_page.load()
+    home_page = HomePage(driver).load()
+    login_page = LoginPage(driver).load()
     if should_login:
         login_page.login(email, password)
         home_page.open_auth_profile_by_icon()
         assert login_page.is_visible_logout_button()
         driver.back()
-        home_page.open_shop_by_page()
-        shop_page = ShopPage(driver)
+        shop_page = ShopPage(driver).load()
         shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
         shop_page.wait_for_confirmation_to_disappear()
@@ -157,18 +144,14 @@ def test_logged_user_rates_product_2_times(driver, email, password, should_login
 def test_user_sees_rate_of_another_user(driver, email_1, password_1, should_login, date_of_birth, confirmation_added_to_cart,
                                            street, city, postal_code, card_number, name_on_card, expiration_card,
                                            cvv, asparagus_comment, username, email_2, password_2, confirmation_logged_out):
-    home_page = HomePage(driver)
-    home_page.load()
-    home_page.open_auth_profile_by_icon()
-    login_page = LoginPage(driver)
-    login_page.load()
+    home_page = HomePage(driver).load()
+    login_page = LoginPage(driver).load()
     if should_login:
         login_page.login(email_1, password_1)
         home_page.open_auth_profile_by_icon()
         assert login_page.is_visible_logout_button()
         driver.back()
-        home_page.open_shop_by_page()
-        shop_page = ShopPage(driver)
+        shop_page = ShopPage(driver).load()
         shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
         shop_page.wait_for_confirmation_to_disappear()

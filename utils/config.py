@@ -8,8 +8,16 @@ class Config:
     DEFAULT_TIMEOUT = 10
     ALL_CATEGORY = 1  # All, by default
     ITEM_QUANTITY = 5
+    AGE_17 = datetime.datetime.today().replace(year=datetime.datetime.today().year - 17).strftime("%d-%m-%Y")
+    AGE_18 = datetime.datetime.today().replace(year=datetime.datetime.today().year - 18).strftime("%d-%m-%Y")
     AGE_20 = datetime.datetime.today().replace(year=datetime.datetime.today().year - 20).strftime("%d-%m-%Y")
+    AGE_20_INVALID_DATE_FORMAT = datetime.datetime.today().replace(year=datetime.datetime.today().year - 20).strftime("%d/%m/%Y")
+    EMPTY_BIRTH_DATE = ''
     AGE_CONFIRMATION_MESSAGE = "You are of age. You can now view all products, even alcohol products."
+    UNDERAGE_MESSAGE = "You are underage. You can still browse the site, but you will not be able to view alcohol products."
+    WRONG_FORMAT_MESSAGE = "Wrong birth date format used."
+    AGE_MODAL_TEXT = "You need to be +18 to see some products. Please enter your birth date:"
+    UNDERAGE_NOTICE_TEXT = "You are underage and cannot view alcohol products. Please wait until you are 18 or older to access these products."
     LOGIN_ERROR_MESSAGE = "Invalid username or password"
     ITEM_ADDED_MESSAGE = "Item added to cart!"
     ALREADY_REVIEWED_MESSAGE = "You have already reviewed this product."
@@ -22,3 +30,4 @@ class Config:
         "4": 4,
         "5": 5
     }
+    FIRST_ALCOHOLIC_PRODUCT_NAME = "Sötma Strawberry & Lime Cider"
