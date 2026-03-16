@@ -8,8 +8,16 @@ class Config:
     DEFAULT_TIMEOUT = 10
     ALL_CATEGORY = 1  # All, by default
     ITEM_QUANTITY = 5
+    BUTTON_PLUS_QUANTITY = {
+        10: 10,
+        6: 6
+    }
+    MIN_PRODUCT_TOTAL_FOR_FREE_SHIPMENT = 20
+    MIN_TOTAL_FOR_FREE_SHIPMENT = 25
+    FREE_SHIPMENT = 0
     AGE_17 = datetime.datetime.today().replace(year=datetime.datetime.today().year - 17).strftime("%d-%m-%Y")
     AGE_18 = datetime.datetime.today().replace(year=datetime.datetime.today().year - 18).strftime("%d-%m-%Y")
+    AGE_19 = datetime.datetime.today().replace(year=datetime.datetime.today().year - 19).strftime("%d-%m-%Y")
     AGE_20 = datetime.datetime.today().replace(year=datetime.datetime.today().year - 20).strftime("%d-%m-%Y")
     AGE_20_INVALID_DATE_FORMAT = datetime.datetime.today().replace(year=datetime.datetime.today().year - 20).strftime("%d/%m/%Y")
     EMPTY_BIRTH_DATE = ''

@@ -67,7 +67,7 @@ def test_logged_user_rates_not_bought_product(driver, email, password, should_lo
         shop_page = ShopPage(driver).load()
         shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
         assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
-        shop_page.view_product_info("gala_apples")
+        shop_page.view_product_info("gala apples")
         assert shop_page.get_rating_restriction_text() == Config.ITEM_NOT_YET_BOUGHT_MESSAGE
     else:
         login_page.login(email, password)

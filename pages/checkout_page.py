@@ -1,4 +1,7 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
 from pages.base_page import BasePage
 from utils.config import Config
 
@@ -9,9 +12,10 @@ class CheckoutPage(BasePage):
 
     MINUS_BUTTON = (By.XPATH, "//button[@class = 'minus']")
     PLUS_BUTTON = (By.XPATH, "//button[@class = 'plus']")
-    SHIPMENT_VALUE = (By.XPATH, "//*[@id='root']/div/section/div/div[1]/div/div[2]/h5[2]/text()[1]")
-    PRODUCT_TOTAL = (By.XPATH, "//*[@id='root']/div/section/div/div[1]/div/div[3]/h5[2]/text()[1]")
-    TOTAL = (By.XPATH, "//*[@id='root']/div/section/div/div[1]/div/div[4]/h5[2]/text()[1]")
+    SHIPMENT_VALUE = (By.XPATH, "//h5[text()='Shipment:']/following-sibling::h5")
+    PRODUCT_TOTAL = (By.XPATH, "//h5[text()='Product Total:']/following-sibling::h5")
+    TOTAL_VALUE = (By.XPATH, "//h5[text()='Total:']/following-sibling::h5")
+    REMOVE_ITEM = (By.XPATH, "//a[@class = 'remove-icon']")
     STREET_FIELD = (By.XPATH, "//input[@name = 'street']")
     CITY_FIELD = (By.XPATH, "//input[@name = 'city']")
     POSTAL_CODE_FIELD = (By.XPATH, "//input[@name = 'postalCode']")
@@ -63,17 +67,37 @@ class CheckoutPage(BasePage):
     def click_minus_button(self):
         self.click(self.MINUS_BUTTON)
 
-    def click_plus_button(self):
-        self.click(self.PLUS_BUTTON)
+    def click_plus_button(self, nr_of_times):
+        for i in range(nr_of_times):
+            self.click(self.PLUS_BUTTON)
 
     def get_shipment(self):
-        return self.get_text(self.SHIPMENT_VALUE)
+        element = self.wait.until(
+            EC.visibility_of_element_located(self.SHIPMENT_VALUE)
+        )
+        return element.text.strip().replace("€", "")
 
     def get_product_total(self):
-        return self.get_text(self.PRODUCT_TOTAL)
+        element = self.wait.until(
+            EC.visibility_of_element_located(self.PRODUCT_TOTAL)
+        )
+        return element.text.strip().replace("€", "")
 
     def get_total(self):
-        return self.get_text(self.TOTAL)
+        element = self.wait.until(
+            EC.visibility_of_element_located(self.TOTAL_VALUE)
+        )
+        return element.text.strip().replace("€", "")
+
+    def remove_all_items_from_cart(self):
+        while True:
+            buttons = self.driver.find_elements(*self.REMOVE_ITEM)
+            if not buttons:
+                break
+            buttons[0].click()
+            self.wait.until(
+                EC.staleness_of(buttons[0])
+            )
 
     def is_visible_buy_now_button(self):
         return self.is_visible(self.BUY_NOW_BUTTON)
@@ -87,3 +111,4 @@ class CheckoutPage(BasePage):
         self.enter_expiration_card(expiration)
         self.enter_cvv_card(cvv)
         self.buy_now()
+

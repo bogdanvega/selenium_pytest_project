@@ -51,6 +51,7 @@ def test_user_17_years_old_cannot_view_alcoholic_products(driver, date_of_birth)
     shop_page.view_category_products("alcohol")
     assert shop_page.get_underage_notice_text() == Config.UNDERAGE_NOTICE_TEXT
 
+
 @pytest.mark.parametrize("date_of_birth", [
     Config.AGE_20_INVALID_DATE_FORMAT,
     Config.EMPTY_BIRTH_DATE

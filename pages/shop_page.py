@@ -7,7 +7,10 @@ from utils.config import Config
 ADD_TO_CART_BUTTON = {
     "celery": (By.XPATH, "//img[@alt='Celery']/following::button[@class = 'btn btn-primary btn-cart']"),
     "cauliflower": (By.XPATH, "//img[@alt='Cauliflower']/following::button[@class = 'btn btn-primary btn-cart']"),
-    "asparagus": (By.XPATH, "//img[@alt='Asparagus']/following::button[@class = 'btn btn-primary btn-cart']")
+    "asparagus": (By.XPATH, "//img[@alt='Asparagus']/following::button[@class = 'btn btn-primary btn-cart']"),
+    "gala apples": (By.XPATH, "//img[@alt='Gala Apples']/following::button[@class = 'btn btn-primary btn-cart']"),
+    "pink lady apples": (By.XPATH, "//img[@alt='Pink Lady Apples']/following::button[@class = 'btn btn-primary btn-cart']"),
+    "birchwood quarter pounders": (By.XPATH, "//img[@alt='Birchwood Quarter Pounders']/following::button[@class = 'btn btn-primary btn-cart']")
 }
 
 ADD_TO_FAVOURITE_BUTTON = {
@@ -16,7 +19,7 @@ ADD_TO_FAVOURITE_BUTTON = {
 
 PRODUCT_INFO = {
     "celery": (By.XPATH, "//img[@alt='Celery']"),
-    "gala_apples": (By.XPATH, "//img[@alt='Gala Apples']"),
+    "gala apples": (By.XPATH, "//img[@alt='Gala Apples']"),
     "kale": (By.XPATH, "//img[@alt='Kale']"),
     "cauliflower": (By.XPATH, "//img[@alt='Cauliflower']"),
     "asparagus": (By.XPATH, "//img[@alt='Asparagus']")
