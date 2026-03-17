@@ -124,4 +124,3 @@ class CheckoutPage(BasePage):
         self.enter_expiration_card(expiration)
         self.enter_cvv_card(cvv)
         self.buy_now()
-

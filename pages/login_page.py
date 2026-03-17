@@ -56,4 +56,3 @@ class LoginPage(BasePage):
 
     def is_visible_logout_button(self):
         return self.is_visible(self.LOGOUT_BUTTON)
-

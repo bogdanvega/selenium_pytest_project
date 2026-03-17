@@ -31,7 +31,7 @@ def test_free_shipping_when_order_over_20(driver, email, password, should_login,
         assert shop_page.get_confirmation_message() == Config.ITEM_ADDED_MESSAGE
         checkout_page.load()
         assert checkout_page.is_visible_buy_now_button()
-        checkout_page.click_plus_button(Config.BUTTON_PLUS_QUANTITY[10])
+        checkout_page.click_plus_button("gala apples", Config.BUTTON_PLUS_QUANTITY[10])
         assert float(checkout_page.get_product_total()) > Config.MIN_PRODUCT_TOTAL_FOR_FREE_SHIPMENT
         assert float(checkout_page.get_total()) < Config.MIN_TOTAL_FOR_FREE_SHIPMENT
         assert float(checkout_page.get_shipment()) == Config.FREE_SHIPMENT
