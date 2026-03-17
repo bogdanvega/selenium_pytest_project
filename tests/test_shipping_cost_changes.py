@@ -80,4 +80,28 @@ def test_shipping_cost_when_order_just_below_20(driver, email, password, should_
         (TEST_INVALID_USER["email"], TEST_INVALID_USER["password"], False, Config.AGE_19)
 ])
 def test_free_shipping_cost_is_not_kept(driver, email, password, should_login, date_of_birth):
-    pass
+    home_page = HomePage(driver).load()
+    login_page = LoginPage(driver).load()
+    if should_login:
+        login_page.login(email, password)
+        home_page.open_auth_profile_by_icon()
+        assert login_page.is_visible_logout_button()
+        driver.back()
+        checkout_page = CheckoutPage(driver).load()
+        checkout_page.remove_all_items_from_cart()
+        shop_page = ShopPage(driver).load()
+        assert shop_page.get_age_modal_text() == Config.AGE_MODAL_TEXT
+        shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
+        assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
+        shop_page.add_product_to_cart("ginger")
+        shop_page.wait_for_confirmation_message(Config.ITEM_ADDED_MESSAGE)
+        assert shop_page.get_confirmation_message() == Config.ITEM_ADDED_MESSAGE
+        shop_page.add_product_to_cart("large flat mushrooms")
+        shop_page.wait_for_confirmation_message(Config.ITEM_ADDED_MESSAGE)
+        assert shop_page.get_confirmation_message() == Config.ITEM_ADDED_MESSAGE
+        checkout_page.load()
+        assert checkout_page.is_visible_buy_now_button()
+        checkout_page.click_plus_button(Config.BUTTON_PLUS_QUANTITY[17])
+    else:
+        login_page.login(email, password)
+        assert login_page.get_error_message() == Config.LOGIN_ERROR_MESSAGE

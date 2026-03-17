@@ -10,7 +10,9 @@ ADD_TO_CART_BUTTON = {
     "asparagus": (By.XPATH, "//img[@alt='Asparagus']/following::button[@class = 'btn btn-primary btn-cart']"),
     "gala apples": (By.XPATH, "//img[@alt='Gala Apples']/following::button[@class = 'btn btn-primary btn-cart']"),
     "pink lady apples": (By.XPATH, "//img[@alt='Pink Lady Apples']/following::button[@class = 'btn btn-primary btn-cart']"),
-    "birchwood quarter pounders": (By.XPATH, "//img[@alt='Birchwood Quarter Pounders']/following::button[@class = 'btn btn-primary btn-cart']")
+    "birchwood quarter pounders": (By.XPATH, "//img[@alt='Birchwood Quarter Pounders']/following::button[@class = 'btn btn-primary btn-cart']"),
+    "ginger": (By.XPATH, "//img[@alt='Ginger']/following::button[@class = 'btn btn-primary btn-cart']"),
+    "large flat mushrooms": (By.XPATH, "//img[@alt='Large Flat Mushrooms']/following::button[@class = 'btn btn-primary btn-cart']")
 }
 
 ADD_TO_FAVOURITE_BUTTON = {
@@ -123,17 +125,27 @@ class ShopPage(HomePage):
         return self
 
     def add_product_to_cart(self, product):
+        found = self.find_product(product)
+        if not found:
+            raise Exception(f"Product '{product}' not found!")
+
         locator = ADD_TO_CART_BUTTON.get(product)
         if not locator:
             raise ValueError(f"Unknown product: {product}")
-        self.scroll_into_view(ADD_TO_CART_BUTTON[product])
-        self.click(ADD_TO_CART_BUTTON[product])
+
+        self.scroll_into_view(locator)
+        self.click(locator)
 
     def add_to_favourites(self, product):
         if product not in ADD_TO_FAVOURITE_BUTTON:
             raise ValueError(f"Unknown product: {product}")
         self.scroll_into_view(ADD_TO_FAVOURITE_BUTTON[product])
         self.click(ADD_TO_FAVOURITE_BUTTON[product])
+
+    def get_next_page_button(self):
+        button = self.find(self.NEXT_PAGE_BUTTON)
+        self.scroll_into_view(self.NEXT_PAGE_BUTTON)
+        return button
 
     def next_page(self):
         self.scroll_into_view(self.NEXT_PAGE_BUTTON)
@@ -221,3 +233,28 @@ class ShopPage(HomePage):
             EC.text_to_be_present_in_element(self.RATING_USER, username.capitalize()
             )
         )
+
+    def is_product_visible(self, product):
+        locator = ADD_TO_CART_BUTTON.get(product)
+        if not locator:
+            raise ValueError(f"Unknown product: {product}")
+
+        elements = self.driver.find_elements(*locator)
+        return len(elements) > 0
+
+    def find_product(self, product):
+        while True:
+            if self.is_product_visible(product):
+                return True
+
+            next_button = self.get_next_page_button()
+
+            if not next_button.is_enabled():
+                return False
+
+            next_button.click()
+
+            # wait for new products to load
+            self.wait.until(
+                EC.presence_of_all_elements_located((By.XPATH, "//img[@alt]"))
+            )
