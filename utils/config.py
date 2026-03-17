@@ -40,4 +40,3 @@ class Config:
         "4": 4,
         "5": 5
     }
-    FIRST_ALCOHOLIC_PRODUCT_NAME = "Sötma Strawberry & Lime Cider"

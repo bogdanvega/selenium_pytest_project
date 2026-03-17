@@ -3,6 +3,7 @@ import time
 from pages.checkout_page import CheckoutPage
 from pages.login_page import LoginPage
 from pages.shop_page import ShopPage
+from utils.config import Config
 
 
 def test_checkout_page(driver):
@@ -24,9 +25,9 @@ def test_checkout_page(driver):
     checkout_page = CheckoutPage(driver)
     checkout_page.load()
     time.sleep(2)
-    checkout_page.click_plus_button()
+    checkout_page.click_plus_button("celery", Config.BUTTON_PLUS_QUANTITY[1])
     time.sleep(2)
-    checkout_page.click_minus_button()
+    checkout_page.click_minus_button("celery", Config.BUTTON_PLUS_QUANTITY[1])
     time.sleep(2)
     checkout_page.buy_now()
     time.sleep(2)

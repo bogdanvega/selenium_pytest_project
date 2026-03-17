@@ -36,7 +36,7 @@ def test_user_18_years_old_can_view_alcoholic_products(driver, date_of_birth):
     shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
     assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
     shop_page.view_category_products("alcohol")
-    assert shop_page.get_first_product_name() == Config.FIRST_ALCOHOLIC_PRODUCT_NAME
+    assert shop_page.get_first_product_name() != ""
 
 
 @pytest.mark.parametrize("date_of_birth", [

@@ -12,7 +12,8 @@ ADD_TO_CART_BUTTON = {
     "pink lady apples": (By.XPATH, "//img[@alt='Pink Lady Apples']/following::button[@class = 'btn btn-primary btn-cart']"),
     "birchwood quarter pounders": (By.XPATH, "//img[@alt='Birchwood Quarter Pounders']/following::button[@class = 'btn btn-primary btn-cart']"),
     "ginger": (By.XPATH, "//img[@alt='Ginger']/following::button[@class = 'btn btn-primary btn-cart']"),
-    "large flat mushrooms": (By.XPATH, "//img[@alt='Large Flat Mushrooms']/following::button[@class = 'btn btn-primary btn-cart']")
+    "large flat mushrooms": (By.XPATH, "//img[@alt='Large Flat Mushrooms']/following::button[@class = 'btn btn-primary btn-cart']"),
+    "kale": (By.XPATH, "//img[@alt='Kale']/following::button[@class = 'btn btn-primary btn-cart']")
 }
 
 ADD_TO_FAVOURITE_BUTTON = {
@@ -46,18 +47,18 @@ QUANTITY_INPUT_PRODUCT = {
 }
 
 CATEGORY = {
-    "all": (By.XPATH, "//ul/li[1]/a"),
-    "vegetables": (By.XPATH, "//ul/li[2]/a"),
-    "meat": (By.XPATH, "//ul/li[3]/a"),
-    "meat free": (By.XPATH, "//ul/li[4]/a"),
-    "bakery": (By.XPATH, "//ul/li[5]/a"),
-    "chilled": (By.XPATH, "//ul/li[6]/a"),
-    "cupboard": (By.XPATH, "//ul/li[7]/a"),
-    "alcohol": (By.XPATH, "//ul/li[8]/a"),
-    "frozen": (By.XPATH, "//ul/li[9]/a"),
-    "fish": (By.XPATH, "//ul/li[10]/a"),
-    "cleaning": (By.XPATH, "//ul/li[11]/a"),
-    "pet": (By.XPATH, "//ul/li[12]/a")
+    "all": (By.XPATH, "//ul//a[text() = 'All']"),
+    "vegetables": (By.XPATH, "//ul//a[text() = 'Fresh Vegetables']"),
+    "meat": (By.XPATH, "//ul//a[text() = 'Meat & Poultry']"),
+    "meat free": (By.XPATH, "//ul//a[text() = 'Meat Free']"),
+    "bakery": (By.XPATH, "//ul//a[text() = 'Bakery']"),
+    "chilled": (By.XPATH, "//ul//a[text() = 'Chilled']"),
+    "cupboard": (By.XPATH, "//ul//a[text() = 'Food Cupboard']"),
+    "alcohol": (By.XPATH, "//ul//a[text() = 'Alocohol']"),
+    "frozen": (By.XPATH, "//ul//a[text() = 'Frozen Foods']"),
+    "fish": (By.XPATH, "//ul//a[text() = 'Fish']"),
+    "cleaning": (By.XPATH, "//ul//a[text() = 'Cleaning House']"),
+    "pet": (By.XPATH, "//ul//a[text() = 'Pet Care']")
 }
 
 class ShopPage(HomePage):
@@ -169,6 +170,7 @@ class ShopPage(HomePage):
         self.wait.until(EC.visibility_of_element_located(locator)).click()
 
     def view_product_info(self, product):
+        self.find_product(product)
         self.scroll_into_view(PRODUCT_INFO[product])
         self.wait.until(EC.visibility_of_element_located(PRODUCT_INFO[product])).click()
 

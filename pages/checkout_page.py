@@ -1,6 +1,5 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 
 from pages.base_page import BasePage
 from utils.config import Config
@@ -8,13 +7,15 @@ from utils.config import Config
 MINUS_BUTTON = {
     "gala apples": (By.XPATH, "//h5[text() = 'Gala Apples']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'minus']"),
     "pink lady apples" : (By.XPATH, "//h5[text() = 'Pink Lady Apples']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'minus']"),
-    "large flat mushrooms": (By.XPATH, "//h5[text() = 'Large Flat Mushrooms']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'minus']")
+    "large flat mushrooms": (By.XPATH, "//h5[text() = 'Large Flat Mushrooms']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'minus']"),
+    "celery": (By.XPATH, "//h5[text() = 'Celery']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'minus']")
 }
 
 PLUS_BUTTON = {
     "gala apples": (By.XPATH, "//h5[text() = 'Gala Apples']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'plus']"),
     "pink lady apples" : (By.XPATH, "//h5[text() = 'Pink Lady Apples']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'plus']"),
-    "large flat mushrooms": (By.XPATH, "//h5[text() = 'Large Flat Mushrooms']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'plus']")
+    "large flat mushrooms": (By.XPATH, "//h5[text() = 'Large Flat Mushrooms']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'plus']"),
+    "celery": (By.XPATH, "//h5[text() = 'Celery']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'plus']")
 }
 
 class CheckoutPage(BasePage):
