@@ -11,7 +11,8 @@ class Config:
     BUTTON_PLUS_QUANTITY = {
         10: 10,
         6: 6,
-        17: 17
+        17: 17,
+        1: 1
     }
     MIN_PRODUCT_TOTAL_FOR_FREE_SHIPMENT = 20
     MIN_TOTAL_FOR_FREE_SHIPMENT = 25

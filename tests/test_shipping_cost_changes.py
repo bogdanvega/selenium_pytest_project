@@ -66,7 +66,7 @@ def test_shipping_cost_when_order_just_below_20(driver, email, password, should_
         assert shop_page.get_confirmation_message() == Config.ITEM_ADDED_MESSAGE
         checkout_page.load()
         assert checkout_page.is_visible_buy_now_button()
-        checkout_page.click_plus_button(Config.BUTTON_PLUS_QUANTITY[6])
+        checkout_page.click_plus_button("pink lady apples", Config.BUTTON_PLUS_QUANTITY[6])
         assert float(checkout_page.get_product_total()) < Config.MIN_PRODUCT_TOTAL_FOR_FREE_SHIPMENT
         assert float(checkout_page.get_total()) < Config.MIN_TOTAL_FOR_FREE_SHIPMENT
         assert float(checkout_page.get_shipment()) > Config.FREE_SHIPMENT
@@ -101,7 +101,14 @@ def test_free_shipping_cost_is_not_kept(driver, email, password, should_login, d
         assert shop_page.get_confirmation_message() == Config.ITEM_ADDED_MESSAGE
         checkout_page.load()
         assert checkout_page.is_visible_buy_now_button()
-        checkout_page.click_plus_button(Config.BUTTON_PLUS_QUANTITY[17])
+        checkout_page.click_plus_button("large flat mushrooms", Config.BUTTON_PLUS_QUANTITY[17])
+        assert float(checkout_page.get_product_total()) > Config.MIN_PRODUCT_TOTAL_FOR_FREE_SHIPMENT
+        assert float(checkout_page.get_total()) < Config.MIN_TOTAL_FOR_FREE_SHIPMENT
+        assert float(checkout_page.get_shipment()) == Config.FREE_SHIPMENT
+        checkout_page.click_minus_button("large flat mushrooms", Config.BUTTON_PLUS_QUANTITY[1])
+        assert float(checkout_page.get_product_total()) < Config.MIN_PRODUCT_TOTAL_FOR_FREE_SHIPMENT
+        assert float(checkout_page.get_total()) < Config.MIN_TOTAL_FOR_FREE_SHIPMENT
+        assert int(checkout_page.get_shipment()) > Config.FREE_SHIPMENT
     else:
         login_page.login(email, password)
         assert login_page.get_error_message() == Config.LOGIN_ERROR_MESSAGE

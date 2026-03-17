@@ -5,13 +5,22 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.base_page import BasePage
 from utils.config import Config
 
+MINUS_BUTTON = {
+    "gala apples": (By.XPATH, "//h5[text() = 'Gala Apples']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'minus']"),
+    "pink lady apples" : (By.XPATH, "//h5[text() = 'Pink Lady Apples']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'minus']"),
+    "large flat mushrooms": (By.XPATH, "//h5[text() = 'Large Flat Mushrooms']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'minus']")
+}
+
+PLUS_BUTTON = {
+    "gala apples": (By.XPATH, "//h5[text() = 'Gala Apples']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'plus']"),
+    "pink lady apples" : (By.XPATH, "//h5[text() = 'Pink Lady Apples']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'plus']"),
+    "large flat mushrooms": (By.XPATH, "//h5[text() = 'Large Flat Mushrooms']/ancestor::div[@class = 'checkout-card-item-container']//button[@class = 'plus']")
+}
+
 class CheckoutPage(BasePage):
     """
     Page object for the checkout/cart page.
     """
-
-    MINUS_BUTTON = (By.XPATH, "//button[@class = 'minus']")
-    PLUS_BUTTON = (By.XPATH, "//button[@class = 'plus']")
     SHIPMENT_VALUE = (By.XPATH, "//h5[text()='Shipment:']/following-sibling::h5")
     PRODUCT_TOTAL = (By.XPATH, "//h5[text()='Product Total:']/following-sibling::h5")
     TOTAL_VALUE = (By.XPATH, "//h5[text()='Total:']/following-sibling::h5")
@@ -64,12 +73,15 @@ class CheckoutPage(BasePage):
     def buy_now(self):
         self.click(self.BUY_NOW_BUTTON)
 
-    def click_minus_button(self):
-        self.click(self.MINUS_BUTTON)
-
-    def click_plus_button(self, nr_of_times):
+    def click_minus_button(self, product, nr_of_times):
+        locator = MINUS_BUTTON[product]
         for i in range(nr_of_times):
-            self.click(self.PLUS_BUTTON)
+            self.click(locator)
+
+    def click_plus_button(self, product, nr_of_times):
+        locator = PLUS_BUTTON[product]
+        for i in range(nr_of_times):
+            self.click(locator)
 
     def get_shipment(self):
         element = self.wait.until(
