@@ -16,13 +16,17 @@ def test_modal_is_displayed(driver, email, password, should_login):
     login_page = LoginPage(driver).load()
     if should_login:
         login_page.login(email, password)
+        home_page.screenshot("after_login")
         home_page.open_auth_profile_by_icon()
+        login_page.screenshot("before_assert_is_user_logged_in")
         assert login_page.is_visible_logout_button()
         driver.back()
         shop_page = ShopPage(driver).load()
+        shop_page.screenshot("before_assert_age_modal")
         assert shop_page.get_age_modal_text() == Config.AGE_MODAL_TEXT
     else:
         login_page.login(email, password)
+        login_page.screenshot("before_assert_login_error_message")
         assert login_page.get_error_message() == Config.LOGIN_ERROR_MESSAGE
 
 
@@ -32,10 +36,13 @@ def test_modal_is_displayed(driver, email, password, should_login):
 def test_user_18_years_old_can_view_alcoholic_products(driver, date_of_birth):
     HomePage(driver).load()
     shop_page = ShopPage(driver).load()
+    shop_page.screenshot("before_assert_age_modal")
     assert shop_page.get_age_modal_text() == Config.AGE_MODAL_TEXT
     shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
+    shop_page.screenshot("before_assert_age_confirmation")
     assert shop_page.get_confirmation_message() == Config.AGE_CONFIRMATION_MESSAGE
     shop_page.view_category_products("alcohol")
+    shop_page.screenshot("before_assert_first_alcohol_product_name")
     assert shop_page.get_first_product_name() != ""
 
 
@@ -45,10 +52,13 @@ def test_user_18_years_old_can_view_alcoholic_products(driver, date_of_birth):
 def test_user_17_years_old_cannot_view_alcoholic_products(driver, date_of_birth):
     HomePage(driver).load()
     shop_page = ShopPage(driver).load()
+    shop_page.screenshot("before_assert_age_modal")
     assert shop_page.get_age_modal_text() == Config.AGE_MODAL_TEXT
     shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
+    shop_page.screenshot("before_assert_underage_message")
     assert shop_page.get_error_message() == Config.UNDERAGE_MESSAGE
     shop_page.view_category_products("alcohol")
+    shop_page.screenshot("before_assert_underage_notice_text")
     assert shop_page.get_underage_notice_text() == Config.UNDERAGE_NOTICE_TEXT
 
 
@@ -59,8 +69,11 @@ def test_user_17_years_old_cannot_view_alcoholic_products(driver, date_of_birth)
 def test_invalid_date_birth_format(driver, date_of_birth):
     HomePage(driver).load()
     shop_page = ShopPage(driver).load()
+    shop_page.screenshot("before_assert_age_modal")
     assert shop_page.get_age_modal_text() == Config.AGE_MODAL_TEXT
     shop_page.enter_date_age_modal(date_of_birth).confirm_age_modal()
+    shop_page.screenshot("before_assert_wrong_date_format")
     assert shop_page.get_error_message() == Config.WRONG_FORMAT_MESSAGE
     shop_page.view_category_products("alcohol")
+    shop_page.screenshot("before_assert_underage_notice_text")
     assert shop_page.get_underage_notice_text() == Config.UNDERAGE_NOTICE_TEXT
