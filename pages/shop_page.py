@@ -5,62 +5,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from pages.home_page import HomePage
 from utils.config import Config
 
-ADD_TO_CART_BUTTON = {
-    "celery": (By.XPATH, "//img[@alt='Celery']/following::button[@class = 'btn btn-primary btn-cart']"),
-    "cauliflower": (By.XPATH, "//img[@alt='Cauliflower']/following::button[@class = 'btn btn-primary btn-cart']"),
-    "asparagus": (By.XPATH, "//img[@alt='Asparagus']/following::button[@class = 'btn btn-primary btn-cart']"),
-    "gala apples": (By.XPATH, "//img[@alt='Gala Apples']/following::button[@class = 'btn btn-primary btn-cart']"),
-    "pink lady apples": (By.XPATH, "//img[@alt='Pink Lady Apples']/following::button[@class = 'btn btn-primary btn-cart']"),
-    "birchwood quarter pounders": (By.XPATH, "//img[@alt='Birchwood Quarter Pounders']/following::button[@class = 'btn btn-primary btn-cart']"),
-    "ginger": (By.XPATH, "//img[@alt='Ginger']/following::button[@class = 'btn btn-primary btn-cart']"),
-    "large flat mushrooms": (By.XPATH, "//img[@alt='Large Flat Mushrooms']/following::button[@class = 'btn btn-primary btn-cart']"),
-    "kale": (By.XPATH, "//img[@alt='Kale']/following::button[@class = 'btn btn-primary btn-cart']")
-}
-
-ADD_TO_FAVOURITE_BUTTON = {
-    "celery": (By.XPATH, "//img[@alt='Celery']/following::button[@class = 'btn btn-outline-dark ']")
-}
-
-PRODUCT_INFO = {
-    "celery": (By.XPATH, "//img[@alt='Celery']"),
-    "gala apples": (By.XPATH, "//img[@alt='Gala Apples']"),
-    "kale": (By.XPATH, "//img[@alt='Kale']"),
-    "cauliflower": (By.XPATH, "//img[@alt='Cauliflower']"),
-    "asparagus": (By.XPATH, "//img[@alt='Asparagus']")
-}
-
-PAGE_BUTTON = {
-    "2": (By.XPATH, "//button[@class = 'pagination-link' and text() = '2']"),
-    "3": (By.XPATH, "//button[@class = 'pagination-link' and text() = '3']"),
-    "4": (By.XPATH, "//button[@class = 'pagination-link' and text() = '4']")
-}
-
-RATING_STARS = {
-    "1": (By.XPATH, "//div[@class = 'interactive-rating']/span[1]"),
-    "2": (By.XPATH, "//div[@class = 'interactive-rating']/span[2]"),
-    "3": (By.XPATH, "//div[@class = 'interactive-rating']/span[3]"),
-    "4": (By.XPATH, "//div[@class = 'interactive-rating']/span[4]"),
-    "5": (By.XPATH, "//div[@class = 'interactive-rating']/span[5]")
-}
-
-QUANTITY_INPUT_PRODUCT = {
-    "celery": (By.XPATH, "//img[@alt='Celery']/following::input[@type = 'number']")
-}
-
-CATEGORY = {
-    "all": (By.XPATH, "//ul//a[text() = 'All']"),
-    "vegetables": (By.XPATH, "//ul//a[text() = 'Fresh Vegetables']"),
-    "meat": (By.XPATH, "//ul//a[text() = 'Meat & Poultry']"),
-    "meat free": (By.XPATH, "//ul//a[text() = 'Meat Free']"),
-    "bakery": (By.XPATH, "//ul//a[text() = 'Bakery']"),
-    "chilled": (By.XPATH, "//ul//a[text() = 'Chilled']"),
-    "cupboard": (By.XPATH, "//ul//a[text() = 'Food Cupboard']"),
-    "alcohol": (By.XPATH, "//ul//a[text() = 'Alocohol']"),
-    "frozen": (By.XPATH, "//ul//a[text() = 'Frozen Foods']"),
-    "fish": (By.XPATH, "//ul//a[text() = 'Fish']"),
-    "cleaning": (By.XPATH, "//ul//a[text() = 'Cleaning House']"),
-    "pet": (By.XPATH, "//ul//a[text() = 'Pet Care']")
-}
 
 class ShopPage(HomePage):
     """
@@ -86,10 +30,69 @@ class ShopPage(HomePage):
     RATING_RESTRICTION = (By.XPATH, "//div[@class = 'reviewRestriction']/p")
     RATING_USER = (By.XPATH, "//div[@class = 'comment'][1]//div[@class = 'comment-header']//strong")
     CUSTOM_RATING = (By.XPATH, "//div[@class = 'comment'][1]//div[@class = 'custom-rating']/span[@class = 'star full']")
+    RATING_STARS = {
+        "1": (By.XPATH, "//div[@class = 'interactive-rating']/span[1]"),
+        "2": (By.XPATH, "//div[@class = 'interactive-rating']/span[2]"),
+        "3": (By.XPATH, "//div[@class = 'interactive-rating']/span[3]"),
+        "4": (By.XPATH, "//div[@class = 'interactive-rating']/span[4]"),
+        "5": (By.XPATH, "//div[@class = 'interactive-rating']/span[5]")
+    }
 
     # --- PAGINATION ---
     NEXT_PAGE_BUTTON = (By.XPATH, "//button[@class = 'pagination-link' and text() = 'Next']")
     PREVIOUS_PAGE_BUTTON = (By.XPATH, "//button[@class = 'pagination-link' and text() = 'Previous']")
+    PAGE_BUTTON = {
+        "2": (By.XPATH, "//button[@class = 'pagination-link' and text() = '2']"),
+        "3": (By.XPATH, "//button[@class = 'pagination-link' and text() = '3']"),
+        "4": (By.XPATH, "//button[@class = 'pagination-link' and text() = '4']")
+    }
+
+    CATEGORY = {
+        "all": (By.XPATH, "//ul//a[text() = 'All']"),
+        "vegetables": (By.XPATH, "//ul//a[text() = 'Fresh Vegetables']"),
+        "meat": (By.XPATH, "//ul//a[text() = 'Meat & Poultry']"),
+        "meat free": (By.XPATH, "//ul//a[text() = 'Meat Free']"),
+        "bakery": (By.XPATH, "//ul//a[text() = 'Bakery']"),
+        "chilled": (By.XPATH, "//ul//a[text() = 'Chilled']"),
+        "cupboard": (By.XPATH, "//ul//a[text() = 'Food Cupboard']"),
+        "alcohol": (By.XPATH, "//ul//a[text() = 'Alocohol']"),
+        "frozen": (By.XPATH, "//ul//a[text() = 'Frozen Foods']"),
+        "fish": (By.XPATH, "//ul//a[text() = 'Fish']"),
+        "cleaning": (By.XPATH, "//ul//a[text() = 'Cleaning House']"),
+        "pet": (By.XPATH, "//ul//a[text() = 'Pet Care']")
+    }
+
+    # --- PRODUCT ---
+    ADD_TO_CART_BUTTON = {
+        "celery": (By.XPATH, "//img[@alt='Celery']/following::button[@class = 'btn btn-primary btn-cart']"),
+        "cauliflower": (By.XPATH, "//img[@alt='Cauliflower']/following::button[@class = 'btn btn-primary btn-cart']"),
+        "asparagus": (By.XPATH, "//img[@alt='Asparagus']/following::button[@class = 'btn btn-primary btn-cart']"),
+        "gala apples": (By.XPATH, "//img[@alt='Gala Apples']/following::button[@class = 'btn btn-primary btn-cart']"),
+        "pink lady apples": (By.XPATH,
+                             "//img[@alt='Pink Lady Apples']/following::button[@class = 'btn btn-primary btn-cart']"),
+        "birchwood quarter pounders": (By.XPATH,
+                                       "//img[@alt='Birchwood Quarter Pounders']/following::button[@class = 'btn btn-primary btn-cart']"),
+        "ginger": (By.XPATH, "//img[@alt='Ginger']/following::button[@class = 'btn btn-primary btn-cart']"),
+        "large flat mushrooms": (By.XPATH,
+                                 "//img[@alt='Large Flat Mushrooms']/following::button[@class = 'btn btn-primary btn-cart']"),
+        "kale": (By.XPATH, "//img[@alt='Kale']/following::button[@class = 'btn btn-primary btn-cart']")
+    }
+
+    ADD_TO_FAVOURITE_BUTTON = {
+        "celery": (By.XPATH, "//img[@alt='Celery']/following::button[@class = 'btn btn-outline-dark ']")
+    }
+
+    PRODUCT_INFO = {
+        "celery": (By.XPATH, "//img[@alt='Celery']"),
+        "gala apples": (By.XPATH, "//img[@alt='Gala Apples']"),
+        "kale": (By.XPATH, "//img[@alt='Kale']"),
+        "cauliflower": (By.XPATH, "//img[@alt='Cauliflower']"),
+        "asparagus": (By.XPATH, "//img[@alt='Asparagus']")
+    }
+
+    QUANTITY_INPUT_PRODUCT = {
+        "celery": (By.XPATH, "//img[@alt='Celery']/following::input[@type = 'number']")
+    }
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -127,12 +130,12 @@ class ShopPage(HomePage):
 
         # only change quantity if needed
         if quantity is not None:
-            input_locator = QUANTITY_INPUT_PRODUCT.get(product)
+            input_locator = self.QUANTITY_INPUT_PRODUCT.get(product)
             if not input_locator:
                 raise ValueError(f"Unknown product: {product}")
             self.type_text(input_locator, quantity)
 
-        button_locator = ADD_TO_CART_BUTTON.get(product)
+        button_locator = self.ADD_TO_CART_BUTTON.get(product)
         if not button_locator:
             raise ValueError(f"Unknown product: {product}")
 
@@ -140,10 +143,10 @@ class ShopPage(HomePage):
         self.click(button_locator)
 
     def add_to_favourites(self, product):
-        if product not in ADD_TO_FAVOURITE_BUTTON:
+        if product not in self.ADD_TO_FAVOURITE_BUTTON:
             raise ValueError(f"Unknown product: {product}")
-        self.scroll_into_view(ADD_TO_FAVOURITE_BUTTON[product])
-        self.click(ADD_TO_FAVOURITE_BUTTON[product])
+        self.scroll_into_view(self.ADD_TO_FAVOURITE_BUTTON[product])
+        self.click(self.ADD_TO_FAVOURITE_BUTTON[product])
 
     def get_next_page_button(self):
         button = self.find(self.NEXT_PAGE_BUTTON)
@@ -159,25 +162,25 @@ class ShopPage(HomePage):
         self.click(self.PREVIOUS_PAGE_BUTTON)
 
     def page(self, page_number):
-        locator = PAGE_BUTTON.get(page_number)
+        locator = self.PAGE_BUTTON.get(page_number)
         if not locator:
             raise ValueError(f"Invalid page number: {page_number}")
         self.scroll_into_view(locator)
         self.click(locator)
 
     def view_category_products(self, category):
-        locator = CATEGORY.get(category)
+        locator = self.CATEGORY.get(category)
         if not locator:
             raise ValueError(f"Invalid category: {category}")
         self.wait.until(EC.visibility_of_element_located(locator)).click()
 
     def view_product_info(self, product):
         self.find_product(product)
-        self.scroll_into_view(PRODUCT_INFO[product])
-        self.wait.until(EC.visibility_of_element_located(PRODUCT_INFO[product])).click()
+        self.scroll_into_view(self.PRODUCT_INFO[product])
+        self.wait.until(EC.visibility_of_element_located(self.PRODUCT_INFO[product])).click()
 
     def rate_stars(self, stars):
-        self.click(RATING_STARS[stars])
+        self.click(self.RATING_STARS[stars])
 
     def comment(self, comment):
         self.type_text(self.COMMENT_INPUT, comment)
@@ -238,11 +241,11 @@ class ShopPage(HomePage):
     def wait_for_user_rating(self, username):
         self.wait.until(
             EC.text_to_be_present_in_element(self.RATING_USER, username.capitalize()
-            )
+                                             )
         )
 
     def is_product_visible(self, product):
-        locator = ADD_TO_CART_BUTTON.get(product)
+        locator = self.ADD_TO_CART_BUTTON.get(product)
         if not locator:
             raise ValueError(f"Unknown product: {product}")
 
