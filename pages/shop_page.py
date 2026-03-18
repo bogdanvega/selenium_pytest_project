@@ -120,23 +120,24 @@ class ShopPage(HomePage):
     def get_first_product_name(self):
         return self.get_text(self.FIRST_PRODUCT_NAME)
 
-    def enter_quantity_input(self, quantity, product):
-        if product not in QUANTITY_INPUT_PRODUCT:
-            raise ValueError(f"Unknown product: {product}")
-        self.type_text(QUANTITY_INPUT_PRODUCT[product], quantity)
-        return self
-
-    def add_product_to_cart(self, product):
+    def add_product_to_cart(self, product, quantity=None):
         found = self.find_product(product)
         if not found:
             raise Exception(f"Product '{product}' not found!")
 
-        locator = ADD_TO_CART_BUTTON.get(product)
-        if not locator:
+        # only change quantity if needed
+        if quantity is not None:
+            input_locator = QUANTITY_INPUT_PRODUCT.get(product)
+            if not input_locator:
+                raise ValueError(f"Unknown product: {product}")
+            self.type_text(input_locator, quantity)
+
+        button_locator = ADD_TO_CART_BUTTON.get(product)
+        if not button_locator:
             raise ValueError(f"Unknown product: {product}")
 
-        self.scroll_into_view(locator)
-        self.click(locator)
+        self.scroll_into_view(button_locator)
+        self.click(button_locator)
 
     def add_to_favourites(self, product):
         if product not in ADD_TO_FAVOURITE_BUTTON:

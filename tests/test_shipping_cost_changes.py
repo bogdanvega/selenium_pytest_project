@@ -38,7 +38,7 @@ def test_free_shipping_when_order_over_20(driver, email, password, should_login,
         checkout_page.load()
         shop_page.screenshot("before_assert_is_buy_now_button_visible")
         assert checkout_page.is_visible_buy_now_button()
-        checkout_page.click_plus_button("gala apples", Config.BUTTON_PLUS_QUANTITY[10])
+        checkout_page.click_plus_button("gala apples", 10)
         checkout_page.screenshot("before_asserts_checkout_totals")
         assert float(checkout_page.get_product_total()) > Config.MIN_PRODUCT_TOTAL_FOR_FREE_SHIPMENT
         assert float(checkout_page.get_total()) < Config.MIN_TOTAL_FOR_FREE_SHIPMENT
@@ -84,7 +84,7 @@ def test_shipping_cost_when_order_just_below_20(driver, email, password, should_
         checkout_page.load()
         checkout_page.screenshot("before_assert_is_buy_now_button_visible")
         assert checkout_page.is_visible_buy_now_button()
-        checkout_page.click_plus_button("pink lady apples", Config.BUTTON_PLUS_QUANTITY[6])
+        checkout_page.click_plus_button("pink lady apples", 6)
         checkout_page.screenshot("before_asserts_checkout_totals")
         assert float(checkout_page.get_product_total()) < Config.MIN_PRODUCT_TOTAL_FOR_FREE_SHIPMENT
         assert float(checkout_page.get_total()) < Config.MIN_TOTAL_FOR_FREE_SHIPMENT
@@ -129,12 +129,12 @@ def test_free_shipping_cost_is_not_kept(driver, email, password, should_login, d
         checkout_page.load()
         checkout_page.screenshot("before_assert_is_buy_now_button_visible")
         assert checkout_page.is_visible_buy_now_button()
-        checkout_page.click_plus_button("large flat mushrooms", Config.BUTTON_PLUS_QUANTITY[17])
+        checkout_page.click_plus_button("large flat mushrooms", 17)
         checkout_page.screenshot("before_asserts_checkout_totals")
         assert float(checkout_page.get_product_total()) > Config.MIN_PRODUCT_TOTAL_FOR_FREE_SHIPMENT
         assert float(checkout_page.get_total()) < Config.MIN_TOTAL_FOR_FREE_SHIPMENT
         assert float(checkout_page.get_shipment()) == Config.FREE_SHIPMENT
-        checkout_page.click_minus_button("large flat mushrooms", Config.BUTTON_PLUS_QUANTITY[1])
+        checkout_page.click_minus_button("large flat mushrooms", 1)
         shop_page.screenshot("before_asserts_checkout_totals_after")
         assert float(checkout_page.get_product_total()) < Config.MIN_PRODUCT_TOTAL_FOR_FREE_SHIPMENT
         assert float(checkout_page.get_total()) < Config.MIN_TOTAL_FOR_FREE_SHIPMENT

@@ -6,13 +6,6 @@ class Config:
     SHOP_PAGE_URL = HOME_PAGE_URL + "store"
     CHECKOUT_PAGE_URL = HOME_PAGE_URL + "checkout"
     DEFAULT_TIMEOUT = 10
-    ITEM_QUANTITY = 5
-    BUTTON_PLUS_QUANTITY = {
-        1: 1,
-        6: 6,
-        10: 10,
-        17: 17
-    }
     MIN_PRODUCT_TOTAL_FOR_FREE_SHIPMENT = 20
     MIN_TOTAL_FOR_FREE_SHIPMENT = 25
     FREE_SHIPMENT = 0
