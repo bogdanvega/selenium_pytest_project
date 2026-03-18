@@ -1,3 +1,4 @@
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -218,7 +219,10 @@ class ShopPage(HomePage):
         return len(rating)
 
     def get_comment_text(self):
-        return self.get_text(self.COMMENT_TEXT)
+        try:
+            return self.get_text(self.COMMENT_TEXT)
+        except TimeoutException:
+            print("Comment not found!")
 
     def wait_for_confirmation_message(self, text):
         self.wait.until(

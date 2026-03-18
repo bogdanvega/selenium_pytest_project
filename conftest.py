@@ -32,7 +32,7 @@ def driver():
 
 
 @pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_make_report(item, call):
+def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
 
